@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="A modern e-commerce storefront demo with product search, filters, cart and checkout." />
+  <title>ShopEase — Everyday Finds</title>
+  <link rel="preconnect" href="https://fakestoreapi.com">
+  <link rel="preconnect" href="https://fakestoreapi.com" crossorigin>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <div class="announcement">Free shipping on demo orders over $100</div>
+  <header class="site-header">
+    <a class="brand" href="#" aria-label="ShopEase home">
+      <span class="brand-mark">S</span><span>ShopEase</span>
+    </a>
+    <nav class="desktop-nav" aria-label="Main navigation">
+      <a href="#shop">Shop</a><a href="#why-us">Why ShopEase?</a>
+    </nav>
+    <div class="header-actions">
+      <button class="icon-button search-focus" id="searchFocus" aria-label="Focus product search" title="Search">⌕</button>
+      <button class="cart-trigger" id="openCart" aria-label="Open shopping cart">
+        <span aria-hidden="true">Bag</span><span class="cart-count" id="cartCount">0</span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="eyebrow-dot"></span> THE EVERYDAY EDIT</p>
+        <h1>Good finds.<br><em>Great feeling.</em></h1>
+        <p class="hero-description">Discover thoughtful picks for your everyday life. Browse the collection, find your favourite, and add it to your bag.</p>
+        <a class="primary-button hero-button" href="#shop">Explore the collection <span aria-hidden="true">↘</span></a>
+        <div class="hero-note"><span class="note-stars">★★★★★</span><span>Curated for curious shoppers</span></div>
+      </div>
+      <div class="hero-art" aria-label="Decorative shopping illustration">
+        <div class="art-circle circle-one"></div><div class="art-circle circle-two"></div>
+        <div class="floating-card card-top"><span>✦</span> A little something<br>for every day</div>
+        <div class="shopping-bag"><div class="bag-handle"></div><div class="bag-face">S.</div></div>
+        <div class="floating-card card-bottom"><span class="tiny-dot"></span> Your next favourite is here</div>
+        <div class="spark spark-one">✳</div><div class="spark spark-two">✦</div>
+      </div>
+    </section>
+
+    <section class="shop-section" id="shop">
+      <div class="section-heading">
+        <div><p class="eyebrow">THE COLLECTION</p><h2>Find your thing<span>.</span></h2></div>
+        <p class="result-summary" id="resultSummary">Loading products…</p>
+      </div>
+
+      <div class="toolbar">
+        <label class="search-box" for="searchInput"><span aria-hidden="true">⌕</span><input id="searchInput" type="search" placeholder="Search products..." autocomplete="off" /></label>
+        <div class="toolbar-controls">
+          <label class="select-label"><span>Category</span>
+            <select id="categoryFilter" aria-label="Filter by category"><option value="all">All categories</option></select>
+          </label>
+          <label class="select-label"><span>Sort by</span>
+            <select id="sortSelect" aria-label="Sort products">
+              <option value="featured">Featured</option><option value="price-low">Price: low to high</option>
+              <option value="price-high">Price: high to low</option><option value="rating">Top rated</option><option value="name">Name: A–Z</option>
+            </select>
+          </label>
+        </div>
+      </div>
+
+      <div class="category-chips" id="categoryChips" aria-label="Quick category filters">
+        <button class="chip active" data-category="all">All items</button>
+      </div>
+
+      <div class="status-panel" id="loadingState"><span class="loader"></span><p>Finding lovely things for you…</p></div>
+      <div class="error-state hidden" id="errorState"><div class="error-icon">!</div><h3>We couldn't load the collection</h3><p>Check your internet connection and try again.</p><button class="primary-button" id="retryButton">Try again</button></div>
+      <div class="product-grid" id="productGrid" aria-live="polite"></div>
+      <div class="empty-state hidden" id="emptyState"><div class="empty-icon">⌕</div><h3>No matches just yet</h3><p>Try a different search or category.</p><button class="secondary-button" id="clearFilters">Clear filters</button></div>
+    </section>
+
+    <section class="why-section" id="why-us">
+      <div><p class="eyebrow">A BETTER LITTLE SHOP</p><h2>Shopping, made<br><em>simple.</em></h2></div>
+      <div class="benefit"><span class="benefit-icon">✦</span><h3>Good discoveries</h3><p>A handpicked-feeling catalogue to make browsing a joy.</p></div>
+      <div class="benefit"><span class="benefit-icon">♡</span><h3>Your bag, your way</h3><p>Update quantities, remove items, and see totals instantly.</p></div>
+      <div class="benefit"><span class="benefit-icon">↗</span><h3>Easy checkout</h3><p>A simple demo checkout with a clear order confirmation.</p></div>
+    </section>
+  </main>
+
+  <footer class="site-footer"><a class="brand footer-brand" href="#"><span class="brand-mark">S</span><span>ShopEase</span></a><p>Made for the joy of finding something good.</p><span>© <span id="year"></span> ShopEase · Demo storefront</span></footer>
+
+  <div class="drawer-backdrop" id="drawerBackdrop"></div>
+  <aside class="cart-drawer" id="cartDrawer" aria-label="Shopping cart" aria-hidden="true">
+    <div class="drawer-header"><div><p class="eyebrow">YOUR SELECTION</p><h2>Your bag <span id="drawerItemCount">(0)</span></h2></div><button class="close-button" id="closeCart" aria-label="Close cart">×</button></div>
+    <div class="cart-items" id="cartItems"></div>
+    <div class="cart-empty" id="cartEmpty"><div class="empty-icon">♡</div><h3>Your bag is taking a nap</h3><p>Add something you love to get started.</p><button class="primary-button" id="continueShopping">Explore products</button></div>
+    <div class="cart-summary hidden" id="cartSummary">
+      <div class="summary-line"><span>Subtotal</span><strong id="subtotal">$0.00</strong></div>
+      <div class="summary-line"><span>Shipping</span><strong id="shipping">$0.00</strong></div>
+      <div class="summary-line total-line"><span>Total</span><strong id="grandTotal">$0.00</strong></div>
+      <p class="shipping-note" id="shippingNote">Shipping is calculated at checkout.</p>
+      <button class="primary-button checkout-button" id="checkoutButton">Continue to checkout <span>→</span></button>
+      <p class="demo-note">Demo only — no real payment will be collected.</p>
+    </div>
+  </aside>
+
+  <div class="modal-backdrop hidden" id="checkoutBackdrop">
+    <section class="checkout-modal" role="dialog" aria-modal="true" aria-labelledby="checkoutTitle">
+      <button class="close-button modal-close" id="closeCheckout" aria-label="Close checkout">×</button>
+      <div class="checkout-symbol">✓</div><p class="eyebrow">ALMOST THERE</p><h2 id="checkoutTitle">Complete your order</h2>
+      <p class="modal-description">This is a demo checkout. Enter a name and email to simulate an order confirmation.</p>
+      <form id="checkoutForm">
+        <label for="customerName">Full name</label><input id="customerName" name="customerName" type="text" placeholder="Your name" required maxlength="80" />
+        <label for="customerEmail">Email address</label><input id="customerEmail" name="customerEmail" type="email" placeholder="you@example.com" required maxlength="120" />
+        <div class="checkout-total"><span>Order total</span><strong id="checkoutTotal">$0.00</strong></div>
+        <button class="primary-button checkout-button" type="submit">Place demo order <span>→</span></button>
+      </form>
+    </section>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
